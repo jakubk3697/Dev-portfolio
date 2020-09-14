@@ -1,3 +1,8 @@
-import game from "./game/index.js";
+import main from "./github/index.js";
 
-game();
+main();
+
+// -------------------------------------------
+// import game from "./game/index.js";
+
+// game();
