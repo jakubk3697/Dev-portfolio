@@ -5,9 +5,10 @@ export default () => {
     .then((data) => {
       if (data.type === "programming") {
         return data;
+      } else {
+        return fetch("http://api.icndb.com/jokes/random")
+          .then((res) => res.json())
+          .then((data) => data);
       }
-      return fetch("http://api.icndb.com/jokes/random?firstName=John&amp;lastName=Doe")
-        .then((res) => res.json())
-        .then((data) => data.value.joke);
     });
 };

@@ -7,7 +7,7 @@ export default () => {
       alert(data.setup);
       alert(data.punchline);
     } else {
-      alert(data);
+      alert(data.value.joke);
     }
   });
 };
