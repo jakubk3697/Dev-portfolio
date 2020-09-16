@@ -12,15 +12,28 @@ const convertObj = ({ name, stargazers_count: stars, clone_url: cloneUrl }) =>
     cloneUrl,
   });
 
-export default function getRepos() {
-  return fetch(REPOS_URL)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      throw Error("Response not 200");
-    })
-    .then((arr) => arr.filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj))
-
-    .catch((err) => console.warn(err));
+/* Version 2 - async/await */
+export default async function getRepos() {
+  try {
+    const res = await fetch(REPOS_URL);
+    if (res.ok) {
+      return (await res.json()).filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj);
+    }
+  } catch {
+    throw Error("Response not 200");
+  }
 }
+
+/* Version 1 - fetch */
+// export default function getRepos() {
+//   return fetch(REPOS_URL)
+//     .then((res) => {
+//       if (res.ok) {
+//         return res.json();
+//       }
+//       throw Error("Response not 200");
+//     })
+//     .then((arr) => arr.filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj))
+
+//     .catch((err) => console.warn(err));
+// }

@@ -2,7 +2,6 @@
 import getRepos from "./service.js";
 
 // eslint-disable-next-line space-before-function-paren
-export default function () {
-  //   getRepos().then((arr) => console.log(arr));
-  getRepos().then((arr) => arr.forEach((item) => console.log(item)));
+export default async function () {
+  (await getRepos()).forEach((el) => console.log(el));
 }
