@@ -1,12 +1,20 @@
 /* eslint-disable require-jsdoc */
 export class GitHubRepo {
-  constructor({ name, stars, license }) {
+  constructor({ name, stars, cloneUrl }) {
     this.name = name;
     this.stars = stars;
-    this.license = license;
+    this.cloneUrl = cloneUrl;
+  }
+
+  get starsInfo() {
+    return this.stars > 0 ? `${this.stars}` : "";
   }
 
   toString() {
-    return `${this.name} (${this.stars} *)`;
+    return `
+    ${this.name}
+    (${this.starsInfo})
+    ${this.cloneUrl} 
+     `;
   }
 }
