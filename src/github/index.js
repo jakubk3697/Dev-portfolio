@@ -3,5 +3,5 @@ import getRepos from "./service.js";
 
 // eslint-disable-next-line space-before-function-paren
 export default async function () {
-  (await getRepos()).forEach((el) => console.log(el));
+  (await getRepos()).forEach((el) => el);
 }

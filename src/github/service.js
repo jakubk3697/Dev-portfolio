@@ -3,7 +3,7 @@
 /* eslint-disable require-jsdoc */
 import { GitHubRepo } from "./model.js";
 const REPOS_URL = "https://api.github.com/users/jakubk3697/repos";
-const POSTS_URL = "https://api.github.com/users/jakubk3697/";
+const POSTS_URL = `https://raw.githubusercontent.com/jakubk3697/Dev-portfolio/master/blog/${name}`;
 const FORBIDDEN_REPOS = ["Portfolio"];
 
 const convertObj = ({ name, stargazers_count: stars, clone_url: cloneUrl }) =>
@@ -25,11 +25,11 @@ export default async function getRepos() {
   }
 }
 
-export async function getBlogPost(name) {
+export async function getBlogPost(name = "1.md") {
   try {
-    const res = await fetch(REPOS_URL);
+    const res = await fetch(`${POSTS_URL}${name}`);
     if (res.ok) {
-      return (await res.json()).filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj);
+      return await res.text();
     }
   } catch {
     throw Error("Response not 200");
