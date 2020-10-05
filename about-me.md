@@ -1,7 +1,7 @@
-# Hello, I'm Jacob and this is my testing repository. 
-# h1 Heading 8-)
+## Hello, I'm Jacob and this is my testing repository. 
+### In progress 8-)
 
 
-## Images
+## Random image
 
 ![Minion](https://octodex.github.com/images/minion.png)
