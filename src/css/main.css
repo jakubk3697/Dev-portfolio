@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.about {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(120px + 50%);
+  margin: 0 auto;
+}
+
+.about img {
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  border: 2px solid #fff;
+}
+
+.emoji-list ul {
+  text-align: center;
+}
+
+.emoji-list li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  font-size: 5em;
+}
+
+
