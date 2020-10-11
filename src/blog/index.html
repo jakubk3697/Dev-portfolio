@@ -11,5 +11,17 @@
   <body>
     <blog-header> </blog-header>
     <blog-nav> </blog-nav>
+    <blog-body>
+      <section slot="posts">
+        <blog-post post-name="1"></blog-post>
+        <hr>
+        <blog-post post-name="2"></blog-post>
+      </section>
+      <div slot="side-menu">
+        <img src="img/author.jpg" alt="author image" style="width: 100%;">
+        <about-me></about-me>
+      </div>
+    </blog-body>
+    <blog-footer> </blog-footer>
   </body>
 </html>

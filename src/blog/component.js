@@ -41,6 +41,71 @@ export class Navigation extends HTMLElementWithContent {
   }
 }
 
+export class Footer extends HTMLElementWithContent {
+  constructor() {
+    super("footer", style.footer, "&copy; Copyright Jacob 2020");
+  }
+}
+
+export class Body extends HTMLElement {
+  constructor() {
+    super();
+    const section = document.createElement("section");
+    section.className = style.content;
+    section.innerHTML = `
+
+    <style>
+    section {
+      overflow: hidden;
+      padding: 1em 1.25em;
+      background-color: #fff;
+    }
+
+    @media (min-width: 55em) {
+
+      .${style.container}{
+          max-width: 70em;
+          margin: 0 auto;
+      }
+
+      section: {
+        padding: 2em 3em;
+      }
+      
+      main,
+      aside {
+        margin-bottom: 1em;
+      }
+
+      main {
+        float: left;
+        width: 65%;
+        margin-right: 5%;
+        margin-bottom: 1em;
+      }
+    
+      aside {
+        float: left;
+        width: 30%;
+        margin-bottom: 1em;
+      }
+    }
+
+  </style>
+ 
+      <div class="${style.container}">
+        <main>
+          <slot name="posts"></slot>
+        </main>
+        <aside>
+          <slot name="side-menu"></slot>
+        </aside>
+      </div>
+    `;
+    this.attachShadow({ mode: "open" }).appendChild(section);
+  }
+}
+
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
     return ["post-name"];
