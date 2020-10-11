@@ -1,21 +1,46 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
 import { getBlogPost } from "../github/service";
 import style from "../css/blog.css";
 
-export class Header extends HTMLElement {
-  constructor() {
+class HTMLElementWithContent extends HTMLElement {
+  constructor(tag, tagStyle, content) {
     super();
-    const header = document.createElement("header");
-    header.innerHTML = `
-      <div class=${style.container}>
-        <h1 class=${style["header-heading"]}>Yet another programmer's blog</h1>
-      </div>
-    `;
-    this.appendChild(header);
+    const element = document.createElement(tag);
+    element.className = tagStyle;
+    element.innerHTML = `<div class="${style.container}">${content}</div>`;
+    this.appendChild(element);
   }
 }
 
-/* eslint-disable require-jsdoc */
+export class Header extends HTMLElementWithContent {
+  constructor() {
+    super(
+      "header",
+      style.header,
+      `
+      <h1 class="${style["header-heading"]}">Yet another programmer's blog</h1>
+      `
+    );
+  }
+}
+
+export class Navigation extends HTMLElementWithContent {
+  constructor() {
+    super(
+      "nav",
+      style["nav-bar"],
+      `
+       <ul class="${style.nav}">
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="../index.html">About me</a></li>
+       </ul>
+    `
+    );
+  }
+}
+
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
     return ["post-name"];
