@@ -11,8 +11,8 @@ body {
 
 .about {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: calc(120px + 50%);
   margin: 0 auto;
 }
@@ -26,13 +26,17 @@ body {
 
 .emoji-list ul {
   text-align: center;
+  font-size: 5em;
 }
 
 .emoji-list li {
   display: inline-block;
   list-style-type: none;
   margin: 0;
-  font-size: 5em;
+  font-size: 0.7em;
+  cursor: pointer;
 }
 
-
+.emoji-list li a {
+  text-decoration: none;
+}

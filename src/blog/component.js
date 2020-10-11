@@ -1,4 +1,19 @@
+/* eslint-disable require-jsdoc */
 import { getBlogPost } from "../github/service";
+import style from "../css/blog.css";
+
+export class Header extends HTMLElement {
+  constructor() {
+    super();
+    const header = document.createElement("header");
+    header.innerHTML = `
+      <div class=${style.container}>
+        <h1 class=${style["header-heading"]}>Yet another programmer's blog</h1>
+      </div>
+    `;
+    this.appendChild(header);
+  }
+}
 
 /* eslint-disable require-jsdoc */
 export class BlogPost extends HTMLElement {

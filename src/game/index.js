@@ -5,6 +5,8 @@ import info from "./userInfo.js";
 import count from "./count.js";
 
 export default () => {
+  alert("Wylosowano liczbę z przedziały 1-50. Zgaduj!");
+
   let num = getNum();
   let attempts = 0;
 
