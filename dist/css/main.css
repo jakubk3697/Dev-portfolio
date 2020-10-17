@@ -35,8 +35,13 @@ body {
   margin: 0;
   font-size: 0.7em;
   cursor: pointer;
+  transition: border-bottom 0.3s;
 }
 
 .emoji-list li a {
   text-decoration: none;
+}
+
+.emoji-list li:hover {
+  border-bottom: 3px solid darkred;
 }
