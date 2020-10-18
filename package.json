@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "live-server": "^1.2.1",
     "markdown-element": "^2.0.2"
   },
   "devDependencies": {

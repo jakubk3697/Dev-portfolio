@@ -19,7 +19,7 @@ export class Header extends HTMLElementWithContent {
       "header",
       style.header,
       `
-      <h1 class="${style["header-heading"]}">Yet another programmer's blog</h1>
+      <h1 class="${style["header-heading"]}">Yet another programmer's blog</h1> 
       `
     );
   }
