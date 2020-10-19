@@ -1,6 +1,7 @@
+/* eslint-disable indent */
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
-import { getBlogPost } from "../github/service";
+import { getBlogPost, getBlogPostNames } from "../github/service";
 import style from "../css/blog.css";
 
 class HTMLElementWithContent extends HTMLElement {
@@ -51,8 +52,9 @@ export class Body extends HTMLElement {
   constructor() {
     super();
     const section = document.createElement("section");
-    section.className = style.content;
-    section.innerHTML = `
+    // section.className = style.content;
+    getBlogPostNames().then((posts) => {
+      section.innerHTML = `
 
     <style>
     section {
@@ -95,14 +97,18 @@ export class Body extends HTMLElement {
  
       <div class="${style.container}">
         <main>
-          <slot name="posts"></slot>
+         ${posts
+           .reverse()
+           .map((postName) => `<blog-post post-name="${postName}"></blog-post>`)
+           .join("<hr>")} 
         </main>
         <aside>
           <slot name="side-menu"></slot>
         </aside>
       </div>
     `;
-    this.attachShadow({ mode: "open" }).appendChild(section);
+      this.attachShadow({ mode: "open" }).appendChild(section);
+    });
   }
 }
 
@@ -125,6 +131,17 @@ export class BlogPost extends HTMLElement {
     const md = document.createElement("mark-down");
     md.textContent = await getBlogPost(`${name}.md`);
     this.shadow.appendChild(md);
+    this.shadow.appendChild(
+      (document.createElement("style").innerHTML = `
+      pre {
+        width: 100%;
+        overflow: scroll;
+      }
+      img {
+        width: 100%;
+      }
+    `)
+    );
   }
 
   clean() {
