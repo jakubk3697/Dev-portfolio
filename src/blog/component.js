@@ -51,64 +51,71 @@ export class Footer extends HTMLElementWithContent {
 export class Body extends HTMLElement {
   constructor() {
     super();
-    const section = document.createElement("section");
-    // section.className = style.content;
-    getBlogPostNames().then((posts) => {
-      section.innerHTML = `
-
-    <style>
-    section {
-      overflow: hidden;
-      padding: 1em 1.25em;
-      background-color: #fff;
-    }
-
-    @media (min-width: 55em) {
-
-      .${style.container}{
-          max-width: 70em;
-          margin: 0 auto;
-      }
-
-      section: {
-        padding: 2em 3em;
-      }
-      
-      main,
-      aside {
-        margin-bottom: 1em;
-      }
-
-      main {
-        float: left;
-        width: 65%;
-        margin-right: 5%;
-        margin-bottom: 1em;
-      }
-    
-      aside {
-        float: left;
-        width: 30%;
-        margin-bottom: 1em;
-      }
-    }
-
-  </style>
- 
-      <div class="${style.container}">
+    this.attachShadow({ mode: "open" });
+    this.render();
+    this.renderStyles();
+  }
+  async render() {
+    const posts = getBlogPostNames();
+    this.shadowRoot.innerHTML = `
+      <section>
+      ${this.renderStyles()}
+        <div class="${style.container}">
         <main>
-         ${posts
-           .reverse()
-           .map((postName) => `<blog-post post-name="${postName}"></blog-post>`)
-           .join("<hr>")} 
+        ${posts
+          .reverse()
+          .map((postName) => `<blog-post post-name="${postName}"></blog-post>`)
+          .join("<hr>")} 
         </main>
         <aside>
           <slot name="side-menu"></slot>
         </aside>
-      </div>
+        </div>
+      </section>
     `;
-      this.attachShadow({ mode: "open" }).appendChild(section);
-    });
+  }
+
+  renderStyles() {
+    return `
+      <style>
+      section {
+        overflow: hidden;
+        padding: 1em 1.25em;
+        background-color: #fff;
+      }
+  
+      @media (min-width: 55em) {
+  
+        .${style.container}{
+            max-width: 70em;
+            margin: 0 auto;
+        }
+  
+        section: {
+          padding: 2em 3em;
+        }
+        
+        main,
+        aside {
+          margin-bottom: 1em;
+        }
+  
+        main {
+          float: left;
+          width: 65%;
+          margin-right: 5%;
+          margin-bottom: 1em;
+        }
+      
+        aside {
+          float: left;
+          width: 30%;
+          margin-bottom: 1em;
+        }
+      }
+  
+    </style>
+    `;
   }
 }
 
