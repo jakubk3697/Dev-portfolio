@@ -56,7 +56,7 @@ export class Body extends HTMLElement {
     this.renderStyles();
   }
   async render() {
-    const posts = getBlogPostNames();
+    const posts = await getBlogPostNames();
     this.shadowRoot.innerHTML = `
       <section>
       ${this.renderStyles()}
