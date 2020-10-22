@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable indent */
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
@@ -55,18 +56,24 @@ export class Body extends HTMLElement {
     this.render();
     this.renderStyles();
   }
-  async render() {
-    const posts = await getBlogPostNames();
+  async render(name = null) {
+    const fullPost = !!name;
+    const posts = fullPost ? [name] : await getBlogPostNames();
     this.shadowRoot.innerHTML = `
       <section>
       ${this.renderStyles()}
-        <div class="${style.container}">
+        <div class="${style.container}">  
         <main>
         ${posts
           .reverse()
-          .map((postName) => `<blog-post post-name="${postName}"></blog-post>`)
+          .map(
+            (postName) => `
+            <blog-post post-name="${postName}" full-post='${fullPost}'></blog-post>
+            <button>${fullPost ? "Back" : "Read more..."}</button> 
+            `
+          )
           .join("<hr>")} 
-        </main>
+        </main> 
         <aside>
           <slot name="side-menu"></slot>
         </aside>
@@ -121,37 +128,39 @@ export class Body extends HTMLElement {
 
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
-    return ["post-name"];
+    return ["post-name", "full-post"];
   }
   constructor() {
     super();
-    this.shadow = this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    this.render();
+    if (oldValue !== newValue) {
+      this.render();
+    }
   }
 
   async render() {
-    this.clean();
     const name = this.getAttribute("post-name");
-    const md = document.createElement("mark-down");
-    md.textContent = await getBlogPost(`${name}.md`);
-    this.shadow.appendChild(md);
-    this.shadow.appendChild(
-      (document.createElement("style").innerHTML = `
-      pre {
-        width: 100%;
-        overflow: scroll;
-      }
-      img {
-        width: 100%;
-      }
-    `)
-    );
-  }
+    const fullPost = this.getAttribute("full-post") === "true";
+    const content = await getBlogPost(`${name}.md`);
+    this.shadowRoot.innerHTML = `
+      <article>
+        <mark-down>
+          ${fullPost ? content : `${content.substr(0, 300)}...`}
+        </mark-down>
+      </article>
 
-  clean() {
-    this.shadow.childNodes.forEach((child) => child.remove());
+      <style>
+        pre {
+          width: 100%;
+          overflow: scroll;
+        }
+        img {
+          width: 100%;
+        }
+      </style>
+    `;
   }
 }
