@@ -9,11 +9,11 @@ const POST_NAME = /(\d+)\.md/;
 const FILES_URL = "https://api.github.com/repos/jakubk3697/Dev-portfolio/contents/blog/posts";
 const FORBIDDEN_REPOS = ["Portfolio"];
 
-const convertObj = ({ name, stargazers_count: stars, clone_url: cloneUrl }) =>
+const convertObj = ({ name, stargazers_count: stars, html_url: url }) =>
   new GitHubRepo({
     name,
     stars,
-    cloneUrl,
+    url,
   });
 
 async function getRawFileContent(pathToFile) {
