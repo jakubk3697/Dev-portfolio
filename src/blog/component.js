@@ -67,9 +67,9 @@ export class Body extends HTMLElement {
         ${posts
           .reverse()
           .map(
-            (postName) => `
-            <blog-post post-name="${postName}" full-post='${fullPost}'></blog-post>
-            <button>${fullPost ? "Back" : "Read more..."}</button> 
+            (postName, index) => `
+            <blog-post post-name="${postName}" full-post="${fullPost}"></blog-post>
+            <button id="${index}-${postName}">${fullPost ? "Back" : "Read more..."}</button> 
             `
           )
           .join("<hr>")} 
@@ -80,6 +80,16 @@ export class Body extends HTMLElement {
         </div>
       </section>
     `;
+
+    posts.forEach((postName, index) => {
+      this.shadowRoot.getElementById(`${index}-${postName}`).addEventListener("click", () => {
+        if (!fullPost) {
+          this.render(postName);
+        } else {
+          this.render();
+        }
+      });
+    });
   }
 
   renderStyles() {
