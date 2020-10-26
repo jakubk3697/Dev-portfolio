@@ -2,9 +2,10 @@
 import showJoke from "./show.js";
 
 export default () => {
-  const jokeBtn = document.createElement("button");
-  jokeBtn.innerText = "Get joke!";
-  document.body.appendChild(jokeBtn);
+  // const jokeBtn = document.createElement("button");
+  // jokeBtn.innerText = "Get joke!";
+  // document.body.appendChild(jokeBtn);
+  const smileBtn = document.querySelector(".smileBtn");
 
-  jokeBtn.addEventListener("click", showJoke);
+  smileBtn.addEventListener("click", showJoke);
 };

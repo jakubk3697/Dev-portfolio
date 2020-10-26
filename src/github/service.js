@@ -3,61 +3,63 @@
 /* eslint-disable require-jsdoc */
 import { GitHubRepo } from "./model.js";
 const REPOS_URL = "https://api.github.com/users/jakubk3697/repos";
-const POSTS_URL = `https://raw.githubusercontent.com/jakubk3697/Dev-portfolio/master/blog/${name}`;
-const ABOUT_URL = "https://raw.githubusercontent.com/jakubk3697/Dev-portfolio/master/about-me.md";
+const RAW_URL = "https://raw.githubusercontent.com/jakubk3697/Dev-portfolio/master/blog/";
+const POSTS_SUB_URL = "posts/";
+const POST_NAME = /(\d+)\.md/;
+const FILES_URL = "https://api.github.com/repos/jakubk3697/Dev-portfolio/contents/blog/posts";
 const FORBIDDEN_REPOS = ["Portfolio"];
 
-const convertObj = ({ name, stargazers_count: stars, clone_url: cloneUrl }) =>
+const convertObj = ({ name, stargazers_count: stars, license, html_url: url }) =>
   new GitHubRepo({
     name,
     stars,
-    cloneUrl,
+    license: license ? license.spdx_id : "",
+    url,
   });
 
-/* Version 2 - async/await */
-export default async function getRepos() {
+async function getRawFileContent(pathToFile) {
+  try {
+    const res = await fetch(`${RAW_URL}${pathToFile}`);
+    if (res.ok) {
+      return await res.text();
+    }
+    throw Error("Response not 200");
+  } catch (err) {
+    console.warn(err);
+    return "";
+  }
+}
+
+export async function getRepos() {
   try {
     const res = await fetch(REPOS_URL);
     if (res.ok) {
       return (await res.json()).filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj);
     }
-  } catch {
     throw Error("Response not 200");
+  } catch (err) {
+    console.warn(err);
+    return [];
   }
 }
 
-export async function getBlogPost(name = "1.md") {
-  try {
-    const res = await fetch(`${POSTS_URL}${name}`);
-    if (res.ok) {
-      return await res.text();
-    }
-  } catch {
-    throw Error("Response not 200");
-  }
+export async function getBlogPost(name = "0.md") {
+  return getRawFileContent(`${POSTS_SUB_URL}${name}`);
 }
 
 export async function getAboutMe() {
+  return getRawFileContent("about-me.md");
+}
+
+export async function getBlogPostNames() {
   try {
-    const res = await fetch(ABOUT_URL);
-    if (res.ok) {
-      return await res.text();
+    const response = await fetch(FILES_URL);
+    if (response.ok) {
+      return (await response.json()).filter((file) => POST_NAME.test(file.name)).map(({ name }) => name.split(".")[0]);
     }
   } catch {
     throw Error("Response not 200");
   }
 }
 
-/* Version 1 - fetch */
-// export default function getRepos() {
-//   return fetch(REPOS_URL)
-//     .then((res) => {
-//       if (res.ok) {
-//         return res.json();
-//       }
-//       throw Error("Response not 200");
-//     })
-//     .then((arr) => arr.filter((repo) => !FORBIDDEN_REPOS.includes(repo.name)).map(convertObj))
-
-//     .catch((err) => console.warn(err));
-// }
+getBlogPostNames();

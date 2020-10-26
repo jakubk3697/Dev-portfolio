@@ -4,6 +4,7 @@
 
 /* v.1 */
 export default async function getJoke() {
+  console.log("click on joke works");
   const res = await fetch("https://official-joke-api.appspot.com/random_joke");
   const data = await res.json();
   if (data.type === "general") {

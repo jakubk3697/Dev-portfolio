@@ -10,8 +10,23 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "src/index.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "src/blog/index.html",
+      filename: "blog/index.html",
+    }),
     new CopyPlugin({
-      patterns: [{ from: "src/img/", to: "img/" }],
+      patterns: [
+        { from: "src/img/", to: "img/" },
+        { from: "src/blog/img", to: "blog/img" },
+      ],
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader?modules"],
+      },
+    ],
+  },
 };

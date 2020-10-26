@@ -7,22 +7,20 @@ export class AboutMe extends HTMLElement {
   }
   constructor() {
     super();
-    this.shadow = this.attachShadow({ mode: "open" });
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
+    this.attachShadow({ mode: "open" });
     this.render();
   }
 
-  async render() {
-    this.clean();
-    const name = this.getAttribute("about-title");
-    const md = document.createElement("mark-down");
-    md.textContent = await getAboutMe(name);
-    this.shadow.appendChild(md);
-  }
+  // attributeChangedCallback(name, oldValue, newValue) {
+  //   this.render();
+  // }
 
-  clean() {
-    this.shadow.childNodes.forEach((child) => child.remove());
+  async render() {
+    const about = await getAboutMe();
+    this.shadowRoot.innerHTML = `
+      <mark-down>
+        ${about}
+      </mark-down>
+    `;
   }
 }

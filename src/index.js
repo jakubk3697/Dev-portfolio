@@ -1,12 +1,20 @@
 /* eslint-disable no-unused-vars */
 import initMd from "markdown-element";
-import main from "./github/index.js";
-// import initPost from "./blog/index.js";
-import showAboutMe from "./about/index.js";
-// import getJoke from "./joke/index.js";
-// import game from "./game/index.js";
+import startGame from "./game/index.js";
+import startJoke from "./joke/index.js";
+import initBlog from "./blog/index.js";
+import initInfo from "./about/index.js";
+import initGHRepost from "./github/index.js";
+// import main from "./github/index.js";
+
+initBlog();
+initInfo();
+initGHRepost();
+// startJoke();
+// startGame();
 // main();
-// initPost();
-showAboutMe();
-// getJoke();
-// game();
+
+window.controls = {
+  startGame,
+  startJoke,
+};
