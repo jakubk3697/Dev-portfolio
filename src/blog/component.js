@@ -57,7 +57,7 @@ export class Body extends HTMLElement {
     this.renderStyles();
   }
   async render(name = null) {
-    const fullPost = name;
+    const fullPost = !!name;
     const posts = fullPost ? [name] : await getBlogPostNames();
     this.shadowRoot.innerHTML = `
       <section>
@@ -158,7 +158,7 @@ export class BlogPost extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <article>
         <mark-down>
-          ${fullPost ? content : `${content.substr(0, 300)}...`}
+          ${fullPost ? content : `${content.substr(0, 100)}...`}
         </mark-down>
       </article>
 
