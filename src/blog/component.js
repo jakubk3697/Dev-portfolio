@@ -3,7 +3,6 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
 import { getBlogPost, getBlogPostNames } from "../github/service";
-import style from "../css/blog.css";
 
 class HTMLElementWithContent extends HTMLElement {
   constructor(tag, tagStyle, content) {

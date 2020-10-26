@@ -1,9 +1,8 @@
+/* eslint-disable space-before-function-paren */
 /* eslint-disable require-jsdoc */
-import getRepos from "./service.js";
-
 // eslint-disable-next-line space-before-function-paren
-export default function () {
-  //
-}
+import { GitHubRepos } from "./component";
 
-// (await getRepos()).forEach((el) => el);
+export default function () {
+  customElements.define("gh-repos", GitHubRepos);
+}

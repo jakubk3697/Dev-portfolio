@@ -7,17 +7,6 @@ export class GitHubRepo {
     this.url = url;
   }
 
-  get starsInfo() {
-    return this.stars > 0 ? `${this.stars}` : "";
-  }
-
-  toString() {
-    return `
-    ${this.name}
-    (${this.starsInfo})
-     `;
-  }
-
   toTableRow() {
     return `
       <tr onclick="location.assign('${this.url}')">
@@ -25,7 +14,7 @@ export class GitHubRepo {
           ${this.name}
         </td>
         <td>
-          ${this.starsInfo}
+          (${this.stars} ⭐)
         </td>
       </tr>
     `;

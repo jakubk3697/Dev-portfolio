@@ -9,10 +9,11 @@ const POST_NAME = /(\d+)\.md/;
 const FILES_URL = "https://api.github.com/repos/jakubk3697/Dev-portfolio/contents/blog/posts";
 const FORBIDDEN_REPOS = ["Portfolio"];
 
-const convertObj = ({ name, stargazers_count: stars, html_url: url }) =>
+const convertObj = ({ name, stargazers_count: stars, license, html_url: url }) =>
   new GitHubRepo({
     name,
     stars,
+    license: license ? license.spdx_id : "",
     url,
   });
 
@@ -29,7 +30,7 @@ async function getRawFileContent(pathToFile) {
   }
 }
 
-export default async function getRepos() {
+export async function getRepos() {
   try {
     const res = await fetch(REPOS_URL);
     if (res.ok) {

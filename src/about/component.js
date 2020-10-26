@@ -8,11 +8,12 @@ export class AboutMe extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
     this.render();
   }
+
+  // attributeChangedCallback(name, oldValue, newValue) {
+  //   this.render();
+  // }
 
   async render() {
     const about = await getAboutMe();
