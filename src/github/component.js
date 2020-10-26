@@ -12,7 +12,7 @@ export class GitHubRepos extends HTMLElement {
     const repos = await getRepos();
     this.shadowRoot.innerHTML = `
     ${this.renderStyles()}
-        <h2>My <img src"https://github.githubassets.com/images/icons/emoji/octocat.png"> repositories</h2>
+        <h2>My  repositories</h2>
         <table>
             <tbody>
                 ${repos.map((r) => r.toTableRow()).join("\n")}
