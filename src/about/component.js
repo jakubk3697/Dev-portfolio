@@ -11,10 +11,6 @@ export class AboutMe extends HTMLElement {
     this.render();
   }
 
-  // attributeChangedCallback(name, oldValue, newValue) {
-  //   this.render();
-  // }
-
   async render() {
     const about = await getAboutMe();
     this.shadowRoot.innerHTML = `
