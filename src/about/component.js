@@ -1,5 +1,7 @@
-import { getAboutMe } from "../github/service.js";
+import { markdownRenderer } from "../common/decorator";
+import { getAboutMe } from "../github/service";
 
+@markdownRenderer
 /* eslint-disable require-jsdoc */
 export class AboutMe extends HTMLElement {
   static get observedAttributes() {
@@ -13,10 +15,6 @@ export class AboutMe extends HTMLElement {
 
   async render() {
     const about = await getAboutMe();
-    this.shadowRoot.innerHTML = `
-      <mark-down>
-        ${about}
-      </mark-down>
-    `;
+    this.shadowRoot.innerHTML = this.renderMarkdown(about);
   }
 }

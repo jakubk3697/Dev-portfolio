@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "module": "ESNext",
+      "target": "ESNext",
+      "experimentalDecorators": true,
+      "allowJs": true,
+      "alwaysStrict": true,
+      "sourceMap": true,
+    },
+    "exclude": [
+        "node_modules",
+    ],
+} 

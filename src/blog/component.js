@@ -4,6 +4,8 @@
 /* eslint-disable indent */
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
+import { markdownRenderer } from "../common/decorator";
+
 import { getBlogPost, getBlogPostNames } from "../github/service";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import style from "./style.css";
@@ -169,6 +171,7 @@ export class Body extends HTMLElement {
   }
 }
 
+@markdownRenderer
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
     return ["post-name", "full-post"];
@@ -191,9 +194,7 @@ export class BlogPost extends HTMLElement {
     const content = await getBlogPost(`${name}.md`);
     this.shadowRoot.innerHTML = `
       <article>
-        <mark-down>
-            ${fullPost ? content : `${content.substr(0, 100)}...`}
-        </mark-down>
+        ${this.renderMarkdown(fullPost ? content : `${content.substr(0, 100)}...`)}
       </article>
 
       <style>
@@ -213,7 +214,3 @@ export class BlogPost extends HTMLElement {
     dom.i2svg({ node: this.shadowRoot });
   }
 }
-
-/* 
-<i class="fas fa-spinner rotate-ico"></i>
-*/

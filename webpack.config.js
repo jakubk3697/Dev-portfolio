@@ -1,7 +1,10 @@
+/* eslint-disable max-len */
 /* eslint-disable no-var */
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+
+const path = require("path");
 
 module.exports = {
   mode: "production",
@@ -27,6 +30,11 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader?modules"],
+      },
+      {
+        test: /\.js$/,
+        use: ["awesome-typescript-loader"],
+        include: [path.resolve(__dirname, "src/common"), path.resolve(__dirname, "src/about"), path.resolve(__dirname, "src/blog")],
       },
     ],
   },
