@@ -1,4 +1,5 @@
 /* eslint-disable require-jsdoc */
+import { dom } from "@fortawesome/fontawesome-svg-core";
 import { getRepos } from "./service";
 
 export class GitHubRepos extends HTMLElement {
@@ -12,13 +13,16 @@ export class GitHubRepos extends HTMLElement {
     const repos = await getRepos();
     this.shadowRoot.innerHTML = `
     ${this.renderStyles()}
-        <h2>My <img src"https://github.githubassets.com/images/icons/emoji/octocat.png"> repositories</h2>
+    ${this.renderHeader()}
         <table>
             <tbody>
                 ${repos.map((r) => r.toTableRow()).join("\n")}
             </tbody>
         </table>
     `;
+    dom.i2svg({
+      node: this.shadowRoot,
+    });
   }
 
   renderStyles() {
@@ -61,5 +65,13 @@ export class GitHubRepos extends HTMLElement {
           }  
         </style>
       `;
+  }
+
+  renderHeader() {
+    // eslint-disable-next-line max-len
+    const logo = document.getElementById("gh-logo").content.cloneNode(true);
+    const h2 = document.createElement("h2");
+    h2.appendChild(logo);
+    return h2.outerHTML;
   }
 }
