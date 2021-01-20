@@ -4,7 +4,7 @@
 /* eslint-disable indent */
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
-import { markdownRenderer } from "../common/decorator";
+import { markdownRenderer, renderer } from "../common/decorator";
 
 import { getBlogPost, getBlogPostNames } from "../github/service";
 import { dom } from "@fortawesome/fontawesome-svg-core";
@@ -54,13 +54,13 @@ export class Footer extends HTMLElementWithContent {
   }
 }
 
+@renderer()
 export class Body extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
-    this.renderStyles();
+    this.init();
   }
+
   async render(name = null) {
     const fullPost = !!name;
     const postNames = await getBlogPostNames();
@@ -171,6 +171,7 @@ export class Body extends HTMLElement {
   }
 }
 
+@renderer(true)
 @markdownRenderer
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
@@ -178,7 +179,7 @@ export class BlogPost extends HTMLElement {
   }
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.init();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

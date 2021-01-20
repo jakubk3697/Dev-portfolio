@@ -34,7 +34,7 @@ module.exports = {
       {
         test: /\.js$/,
         use: ["awesome-typescript-loader"],
-        include: [path.resolve(__dirname, "src/common"), path.resolve(__dirname, "src/about"), path.resolve(__dirname, "src/blog")],
+        include: [path.resolve(__dirname, "src/common"), path.resolve(__dirname, "src/about"), path.resolve(__dirname, "src/blog"), path.resolve(__dirname, "src/github")],
       },
     ],
   },

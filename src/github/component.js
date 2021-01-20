@@ -1,12 +1,13 @@
 /* eslint-disable require-jsdoc */
+import { renderer } from "../common/decorator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { getRepos } from "./service";
 
+@renderer()
 export class GitHubRepos extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
+    this.init();
   }
 
   async render() {

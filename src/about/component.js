@@ -1,6 +1,7 @@
-import { markdownRenderer } from "../common/decorator";
+import { markdownRenderer, renderer } from "../common/decorator";
 import { getAboutMe } from "../github/service";
 
+@renderer()
 @markdownRenderer
 /* eslint-disable require-jsdoc */
 export class AboutMe extends HTMLElement {
@@ -9,8 +10,7 @@ export class AboutMe extends HTMLElement {
   }
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
+    this.init();
   }
 
   async render() {
