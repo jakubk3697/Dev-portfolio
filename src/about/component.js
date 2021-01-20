@@ -1,5 +1,8 @@
-import { getAboutMe } from "../github/service.js";
+import { markdownRenderer, renderer } from "../common/decorator";
+import { getAboutMe } from "../github/service";
 
+@renderer()
+@markdownRenderer
 /* eslint-disable require-jsdoc */
 export class AboutMe extends HTMLElement {
   static get observedAttributes() {
@@ -7,20 +10,11 @@ export class AboutMe extends HTMLElement {
   }
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
+    this.init();
   }
-
-  // attributeChangedCallback(name, oldValue, newValue) {
-  //   this.render();
-  // }
 
   async render() {
     const about = await getAboutMe();
-    this.shadowRoot.innerHTML = `
-      <mark-down>
-        ${about}
-      </mark-down>
-    `;
+    this.shadowRoot.innerHTML = this.renderMarkdown(about);
   }
 }

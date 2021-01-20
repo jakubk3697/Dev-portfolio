@@ -4,12 +4,12 @@ import startGame from "./game/index.js";
 import startJoke from "./joke/index.js";
 import initBlog from "./blog/index.js";
 import initInfo from "./about/index.js";
-import initGHRepost from "./github/index.js";
+import initGHRepos from "./github/index.js";
 // import main from "./github/index.js";
 
 initBlog();
 initInfo();
-initGHRepost();
+initGHRepos();
 // startJoke();
 // startGame();
 // main();

@@ -1,8 +1,14 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable max-len */
 /* eslint-disable indent */
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
+import { markdownRenderer, renderer } from "../common/decorator";
+
 import { getBlogPost, getBlogPostNames } from "../github/service";
+import { dom } from "@fortawesome/fontawesome-svg-core";
+import style from "./style.css";
 
 class HTMLElementWithContent extends HTMLElement {
   constructor(tag, tagStyle, content) {
@@ -48,21 +54,23 @@ export class Footer extends HTMLElementWithContent {
   }
 }
 
+@renderer()
 export class Body extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
-    this.renderStyles();
+    this.init();
   }
+
   async render(name = null) {
     const fullPost = !!name;
-    const posts = fullPost ? [name] : await getBlogPostNames();
+    const postNames = await getBlogPostNames();
+    const posts = fullPost ? [name] : postNames;
     this.shadowRoot.innerHTML = `
       <section>
       ${this.renderStyles()}
         <div class="${style.container}">  
         <main>
+  
         ${posts
           .reverse()
           .map(
@@ -81,6 +89,7 @@ export class Body extends HTMLElement {
     `;
 
     posts.forEach((postName, index) => {
+      // console.log(this.shadowRoot.getElementById(`${index}-${postName}`));
       this.shadowRoot.getElementById(`${index}-${postName}`).addEventListener("click", () => {
         if (!fullPost) {
           this.render(postName);
@@ -88,6 +97,10 @@ export class Body extends HTMLElement {
           this.render();
         }
       });
+    });
+
+    dom.i2svg({
+      node: this.shadowRoot,
     });
   }
 
@@ -129,19 +142,44 @@ export class Body extends HTMLElement {
           margin-bottom: 1em;
         }
       }
+
+      .svg-inline--fa {
+        display: inline-block;
+        font-size: inherit;
+        height: 2em;
+        overflow: visible;
+        vertical-align: -0.125em;
+      }
+      .svg-inline--fa.fa-w-16 {
+        width: 2em;
+      }
+
+      @keyframes rotating {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .rotate-ico {
+        animation: rotating 2s linear infinite;
+      }
   
     </style>
     `;
   }
 }
 
+@renderer(true)
+@markdownRenderer
 export class BlogPost extends HTMLElement {
   static get observedAttributes() {
     return ["post-name", "full-post"];
   }
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.init();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -151,14 +189,13 @@ export class BlogPost extends HTMLElement {
   }
 
   async render() {
+    this.loading();
     const name = this.getAttribute("post-name");
     const fullPost = this.getAttribute("full-post") === "true";
     const content = await getBlogPost(`${name}.md`);
     this.shadowRoot.innerHTML = `
       <article>
-        <mark-down>
-          ${fullPost ? content : `${content.substr(0, 100)}...`}
-        </mark-down>
+        ${this.renderMarkdown(fullPost ? content : `${content.substr(0, 100)}...`)}
       </article>
 
       <style>
@@ -167,9 +204,14 @@ export class BlogPost extends HTMLElement {
           overflow: scroll;
         }
         img {
-          width: 100%;
+          width: 100%; 
         }
       </style>
     `;
+  }
+  loading() {
+    this.shadowRoot.innerHTML = "";
+    this.shadowRoot.appendChild(document.getElementById("blog-loading").content.cloneNode(true));
+    dom.i2svg({ node: this.shadowRoot });
   }
 }

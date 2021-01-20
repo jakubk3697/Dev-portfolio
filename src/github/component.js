@@ -1,12 +1,13 @@
 /* eslint-disable require-jsdoc */
+import { renderer } from "../common/decorator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { getRepos } from "./service";
 
+@renderer()
 export class GitHubRepos extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.render();
+    this.init();
   }
 
   async render() {
@@ -33,13 +34,13 @@ export class GitHubRepos extends HTMLElement {
           }
           
           h2 {
-            width: 20%;
+            width: 40%;
             margin: 1em auto 0;
-            text-align: left;
+            text-align: center;
           }
 
           table {
-            width: 20%;
+            width: 40%;
             margin: 0 auto 20px;
             background-color: transparent;
             border-spacing: 0;
