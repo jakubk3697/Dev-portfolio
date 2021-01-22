@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import getJoke from "./service.js";
+import getJoke from "./service";
 
 export default async function() {
   const data = await getJoke();

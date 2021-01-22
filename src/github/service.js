@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import { GitHubRepo } from "./model.js";
+import { GitHubRepo } from "./model";
 const REPOS_URL = "https://api.github.com/users/jakubk3697/repos";
 const RAW_URL = "https://raw.githubusercontent.com/jakubk3697/Dev-portfolio/master/blog/";
 const POSTS_SUB_URL = "posts/";

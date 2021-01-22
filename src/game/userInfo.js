@@ -1,4 +1,4 @@
-import { TOO_LESS, TOO_MUCH } from "./constants.js";
+import { TOO_LESS, TOO_MUCH } from "./constants";
 
 export default (num, expected) => {
   if (num > expected) {

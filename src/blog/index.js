@@ -1,4 +1,4 @@
-import { Header, Navigation, BlogPost, Footer, Body } from "./component.js";
+import { Header, Navigation, BlogPost, Footer, Body } from "./component";
 
 export default () => {
   customElements.define("blog-header", Header);

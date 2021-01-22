@@ -1,8 +1,8 @@
-import TO_FIND from "./random.js";
-import getNum from "./input.js";
-import success from "./success.js";
-import info from "./userInfo.js";
-import count from "./count.js";
+import TO_FIND from "./random";
+import getNum from "./input";
+import success from "./success";
+import info from "./userInfo";
+import count from "./count";
 
 export default () => {
   alert("Wylosowano liczbę z przedziały 1-50. Zgaduj!");

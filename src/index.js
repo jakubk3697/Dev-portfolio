@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import initMd from "markdown-element";
-import startGame from "./game/index.js";
-import startJoke from "./joke/index.js";
-import initBlog from "./blog/index.js";
-import initInfo from "./about/index.js";
-import initGHRepos from "./github/index.js";
-// import main from "./github/index.js";
+import startGame from "./game/index";
+import startJoke from "./joke/index";
+import initBlog from "./blog/index";
+import initInfo from "./about/index";
+import initGHRepos from "./github/index";
+// import main from "./github/index";
 
-import { getNextPosts } from "./github/generator.js";
+import { getNextPosts } from "./github/generator";
 
 initBlog();
 initInfo();
@@ -20,13 +20,3 @@ window.controls = {
   startGame,
   startJoke,
 };
-
-const posts = getNextPosts();
-
-posts.next().then((r) => {
-  console.log(r);
-  posts.next().then((r2) => {
-    console.log(r2);
-    posts.next().then((r3) => console.log(r3));
-  });
-});

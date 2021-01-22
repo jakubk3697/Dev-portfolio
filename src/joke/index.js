@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import showJoke from "./show.js";
+import showJoke from "./show";
 
 export default () => {
   // const jokeBtn = document.createElement("button");

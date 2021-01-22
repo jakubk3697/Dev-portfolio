@@ -7,6 +7,7 @@
 import { markdownRenderer, renderer } from "../common/decorator";
 
 import { getBlogPost, getBlogPostNames } from "../github/service";
+// import { getBlogPost } from "../github/generator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import style from "./style.css";
 
@@ -102,6 +103,38 @@ export class Body extends HTMLElement {
     dom.i2svg({
       node: this.shadowRoot,
     });
+  }
+
+  renderPostComponents(names, fullPost = false) {
+    const postComponents = names
+      .map(
+        (postName, index) => `
+      <blog-post post-name="${postName}" full-post="${fullPost}"></blog-post>
+      <button id="${index}=${postName}">${fullPost ? "Back" : "Read more..."}</button>
+    `
+      )
+      .join("<hr>");
+
+    return fullPost ? postComponents : postComponents + '<button style="display: block; padding: 1em; margin: 0 auto;" id="load-more">Load more...</button>';
+  }
+
+  attachClickCallbacks(name, fullPost = false) {
+    names.forEach((postName, index) => {
+      this.shadowRoot.getElementById(`${index}-${postName}`).onclick = () => {
+        if (!fullPost) {
+          this.render(postName);
+        } else {
+          this.render();
+        }
+      };
+    });
+    if (!fullPost) {
+      const loadMoreBtn = this.shadowRoot.getElementById("load-more");
+      loadMoreBtn.onclick = () => {
+        loadMoreBtn.remove();
+        this.uprender();
+      };
+    }
   }
 
   renderStyles() {
