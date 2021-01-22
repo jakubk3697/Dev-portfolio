@@ -6,8 +6,8 @@
 /* eslint-disable require-jsdoc */
 import { markdownRenderer, renderer } from "../common/decorator";
 
-import { getBlogPost, getBlogPostNames } from "../github/service";
-// import { getBlogPost } from "../github/generator";
+import { getBlogPost } from "../github/service";
+import { getNextPosts } from "../github/generator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import style from "./style.css";
 
@@ -63,6 +63,7 @@ export class Body extends HTMLElement {
   }
 
   async render(name = null) {
+     
     const fullPost = !!name;
     const postNames = await getBlogPostNames();
     const posts = fullPost ? [name] : postNames;
@@ -136,6 +137,23 @@ export class Body extends HTMLElement {
       };
     }
   }
+
+  /*   async uprender() {
+    const generated = await this.posts.next();
+    const names = generated.value;
+    if (name.length) {
+      const main = this.shadowRoot.querySelector("main");
+      const nextPosts = document.createElement("div");
+      nextPosts.className = "next-posts";
+      nextPosts.innerHTML = `<hr>${this.renderPostComponents(names)}`;
+      main.appendChild(nextPosts);
+      this.attachClickCallbacks(names);
+    }
+    if (generated.done) {
+      console.log(generated.done);
+      this.shadowRoot.getElementById("load-more").remove();
+    }
+  } */
 
   renderStyles() {
     return `
