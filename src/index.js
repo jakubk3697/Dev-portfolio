@@ -7,6 +7,8 @@ import initInfo from "./about/index.js";
 import initGHRepos from "./github/index.js";
 // import main from "./github/index.js";
 
+import { getNextPosts } from "./github/generator.js";
+
 initBlog();
 initInfo();
 initGHRepos();
@@ -18,3 +20,13 @@ window.controls = {
   startGame,
   startJoke,
 };
+
+const posts = getNextPosts();
+
+posts.next().then((r) => {
+  console.log(r);
+  posts.next().then((r2) => {
+    console.log(r2);
+    posts.next().then((r3) => console.log(r3));
+  });
+});
