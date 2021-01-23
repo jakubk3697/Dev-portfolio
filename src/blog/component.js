@@ -5,7 +5,6 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
 import { markdownRenderer, renderer } from "../common/decorator";
-
 import { getBlogPost } from "../github/service";
 import { getNextPosts } from "../github/generator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
@@ -63,47 +62,43 @@ export class Body extends HTMLElement {
   }
 
   async render(name = null) {
-     
+    this.posts = getNextPosts();
     const fullPost = !!name;
-    const postNames = await getBlogPostNames();
-    const posts = fullPost ? [name] : postNames;
+    const names = fullPost ? [name] : (await this.posts.next()).value;
     this.shadowRoot.innerHTML = `
+    ${this.renderStyles()}
       <section>
-      ${this.renderStyles()}
         <div class="${style.container}">  
         <main>
-  
-        ${posts
-          .reverse()
-          .map(
-            (postName, index) => `
-            <blog-post post-name="${postName}" full-post="${fullPost}"></blog-post>
-            <button id="${index}-${postName}">${fullPost ? "Back" : "Read more..."}</button> 
-            `
-          )
-          .join("<hr>")} 
+          ${this.renderPostComponents(names, fullPost)}
         </main> 
         <aside>
           <slot name="side-menu"></slot>
         </aside>
         </div>
       </section>
-    `;
-
-    posts.forEach((postName, index) => {
-      // console.log(this.shadowRoot.getElementById(`${index}-${postName}`));
-      this.shadowRoot.getElementById(`${index}-${postName}`).addEventListener("click", () => {
-        if (!fullPost) {
-          this.render(postName);
-        } else {
-          this.render();
-        }
-      });
-    });
+      `;
+    this.attachClickCallbacks(names, fullPost);
 
     dom.i2svg({
       node: this.shadowRoot,
     });
+  }
+
+  async uprender() {
+    const generated = await this.posts.next();
+    const names = generated.value;
+    if (names.length) {
+      const main = this.shadowRoot.querySelector("main");
+      const nextPosts = document.createElement("div");
+      nextPosts.className = "next-posts";
+      nextPosts.innerHTML = `<hr>${this.renderPostComponents(names)}`;
+      main.appendChild(nextPosts);
+      this.attachClickCallbacks(names);
+    }
+    if (generated.done) {
+      this.shadowRoot.getElementById("load-more").remove();
+    }
   }
 
   renderPostComponents(names, fullPost = false) {
@@ -111,7 +106,7 @@ export class Body extends HTMLElement {
       .map(
         (postName, index) => `
       <blog-post post-name="${postName}" full-post="${fullPost}"></blog-post>
-      <button id="${index}=${postName}">${fullPost ? "Back" : "Read more..."}</button>
+      <button id="${index}-${postName}">${fullPost ? "Back" : "Read more..."}</button>
     `
       )
       .join("<hr>");
@@ -119,7 +114,7 @@ export class Body extends HTMLElement {
     return fullPost ? postComponents : postComponents + '<button style="display: block; padding: 1em; margin: 0 auto;" id="load-more">Load more...</button>';
   }
 
-  attachClickCallbacks(name, fullPost = false) {
+  attachClickCallbacks(names, fullPost = false) {
     names.forEach((postName, index) => {
       this.shadowRoot.getElementById(`${index}-${postName}`).onclick = () => {
         if (!fullPost) {
@@ -132,28 +127,12 @@ export class Body extends HTMLElement {
     if (!fullPost) {
       const loadMoreBtn = this.shadowRoot.getElementById("load-more");
       loadMoreBtn.onclick = () => {
+        console.log("ok");
         loadMoreBtn.remove();
         this.uprender();
       };
     }
   }
-
-  /*   async uprender() {
-    const generated = await this.posts.next();
-    const names = generated.value;
-    if (name.length) {
-      const main = this.shadowRoot.querySelector("main");
-      const nextPosts = document.createElement("div");
-      nextPosts.className = "next-posts";
-      nextPosts.innerHTML = `<hr>${this.renderPostComponents(names)}`;
-      main.appendChild(nextPosts);
-      this.attachClickCallbacks(names);
-    }
-    if (generated.done) {
-      console.log(generated.done);
-      this.shadowRoot.getElementById("load-more").remove();
-    }
-  } */
 
   renderStyles() {
     return `
