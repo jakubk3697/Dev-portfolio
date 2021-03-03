@@ -6,7 +6,7 @@
 /* eslint-disable require-jsdoc */
 import { markdownRenderer, renderer } from "../common/decorator";
 import { getBlogPost } from "../github/service";
-import { getNextPosts } from "../github/generator";
+import { getNextPosts /* getNextPost */ } from "../github/generator";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import style from "./style.css";
 
@@ -106,7 +106,10 @@ export class Body extends HTMLElement {
       .map(
         (postName, index) => `
       <blog-post post-name="${postName}" full-post="${fullPost}"></blog-post>
-      <button id="${index}-${postName}">${fullPost ? "Back" : "Read more..."}</button>
+      <div style="display: flex; justify-content: space-between;">
+        <button id="${index}-${postName}">${fullPost ? "Back" : "Read more..."}</button>
+        <button id="next-${index}-${postName}" style="display: ${fullPost ? "block" : "none"};">Next</button>
+      </div>
     `
       )
       .join("<hr>");
@@ -124,10 +127,11 @@ export class Body extends HTMLElement {
         }
       };
     });
+
     if (!fullPost) {
       const loadMoreBtn = this.shadowRoot.getElementById("load-more");
       loadMoreBtn.onclick = () => {
-        console.log("ok");
+        console.log("Load more works");
         loadMoreBtn.remove();
         this.uprender();
       };

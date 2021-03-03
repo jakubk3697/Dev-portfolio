@@ -16,3 +16,8 @@ export async function* getNextPosts() {
     yield result;
   }
 }
+
+// export async function* getNextPost() {
+//   const postNames = (await getBlogPostNames()).reverse();
+//   console.log(postNames);
+// }
